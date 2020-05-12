@@ -78,7 +78,6 @@ pygments_style = None
 html_theme = 'bizstyle'
 html_theme_options = {
     "rightsidebar": "true",
-    "relbarbgcolor": "black"
 }
 
 # Theme options are theme-specific and customize the look and feel of a theme
