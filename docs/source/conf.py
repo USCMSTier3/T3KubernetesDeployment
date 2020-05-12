@@ -70,21 +70,16 @@ pygments_style = None
 
 
 # -- Options for HTML output -------------------------------------------------
-import guzzle_sphinx_theme
-
-extensions.append("guzzle_sphinx_theme")
-html_theme_path = guzzle_sphinx_theme.html_theme_path()
-html_theme = 'guzzle_sphinx_theme'
-
-# Custom sidebar templates, maps document names to template names.
-html_sidebars = {
-    '**': ['logo-text.html', 'globaltoc.html', 'searchbox.html']
-}
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
 #html_theme = 'alabaster'
+html_theme = 'bizstyle'
+html_theme_options = {
+    "rightsidebar": "true",
+    "relbarbgcolor": "black"
+}
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
