@@ -30,4 +30,12 @@ The `SLATE project <https://slateci.io/>`_ enables a federated "NoOPs" operation
 
 Requirements
 ============
+The following sets of requirements are necessary in order to use SLATE:
 
+- Docker: Needed to start the SLATE container images for the services
+- Kubernetes: To orchestrate the containers.
+- At least 1 machine: To deploy the kubernetes (k8s) master, which will be in contact with the SLATE server, this machine (or others) can serve as the workers too to deploy your T3 components too.
+- 2 Public Ips: The first for the k8s master, so the SLATE server can contact it. The second, for the ingress controller of the k8s load balancer (more on this, later).
+
+Docker and Kubernetes Installation
+==================================
