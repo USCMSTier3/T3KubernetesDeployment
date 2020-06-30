@@ -169,6 +169,7 @@ Then, we enter the container, making sure we provide the correct group namespace
 After that, you are inside the container and you can check the logfiles. E.g.:
 
 .. code-block:: bash
+
   # tail /var/log/squid/access.log
 
   129.74.85.6 - - [13/Mar/2020:21:14:41.850 +0000] "GET 
@@ -196,6 +197,7 @@ Creating SSH key pairs
 First, we need to create an ssh-key pair for the Hosted CE to connect to the submit node and store this key into the SLATE cluster.
 
 .. code-block:: bash
+
   $ ssh-keygen -f osg-keypair
   $ slate secret create my-hostedce-privkey --from-file=bosco.key=osg-keypair --group <groupname> --cluster <clustername>
 
@@ -208,6 +210,7 @@ Next, we need to request IGTF certificates for this host. Please, refer to the l
 https://opensciencegrid.org/docs/security/host-certs/#host-certificates
 
 .. code-block:: bash
+
   $ slate secret create my-hostedce-secret --cluster <clustername> --group <groupname> --from-file hostcert.pem --from-file hostkey.pem
 
 Configuring the service
@@ -215,11 +218,13 @@ Configuring the service
 Now, you get the app configuration and modify properly:
 
 .. code-block:: bash
+
   $ slate app get-conf osg-hosted-ce -o osg-hosted-ce.yaml
 
 The configuration will look like this:
 
 .. code-block:: bash
+
   Site:
     Resource: <resourcename>
   Cluster:
@@ -244,6 +249,7 @@ Installing the service
 ^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
+
   $ slate app install osg-hosted-ce --conf osg-hosted-ce.yaml --cluster <clustername> --group <groupname>
 
 Checking your service
@@ -251,6 +257,7 @@ Checking your service
 To check your service, get the slate instance name and look at the logs.
 
 .. code-block:: bash
+
   $ slate instance list --group ndcms | grep hosted-ce
   osg-hosted-ce-caml-cluster notredame instance_WLB6k24202Q
   
@@ -261,6 +268,7 @@ To check your service, get the slate instance name and look at the logs.
 Then, you can use `condor_ce_trace` to test the service: 
 
 .. code-block:: bash
+
   $ condor_ce_trace k8sworker03.crc.nd.edu
   Testing HTCondor-CE authorization...
   Verified READ access for collector daemon at 
@@ -270,4 +278,5 @@ Then, you can use `condor_ce_trace` to test the service:
   Job transitioned from Held to Idle
   Job transitioned from Idle to Completed
   - Job was successful
+
 
