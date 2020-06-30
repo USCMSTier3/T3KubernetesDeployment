@@ -22,6 +22,7 @@ Welcome to USCMST3 Kubernetes Deployment's documentation!
 
 Introduction
 ============
+
 The following documentation describes the steps followed in order to deploy a USCMS Tier-3 on top of Kubernetes, via SLATE.
 
 `Kubernetes <https://kubernetes.io/>`_ is an industrial open-source container-orchestration system for automating application deployment, scaling, and management. It was originally designed by Google, and is now maintained by the Cloud Native Computing Foundation.
@@ -31,6 +32,7 @@ The `SLATE project <https://slateci.io/>`_ enables a federated "NoOPs" operation
 
 Requirements
 ============
+
 The following sets of requirements are necessary in order to use SLATE:
 
 - Docker: Needed to start the SLATE container images for the services
@@ -44,6 +46,7 @@ The following sets of requirements are necessary in order to use SLATE:
 
 Cluster Installation
 ====================
+
 For Red Hat based Operating systems, please follow SLATE documentation on the matter.
 
 https://slateci.io/docs/cluster/index.html
@@ -58,6 +61,7 @@ For other Operating Systems and general online support, you can join the SLATE S
 
 Joining the SLATE federation and installing apps
 ================================================
+
 In order to use SLATE, you will need to:
 
 - Install the SLATE client
@@ -68,8 +72,10 @@ Please, refer to the link below in order to perform these steps:
 https://slateci.io/docs/tools/
 
 .. _InstallingApps:
+
 Installing applications:
 ========================
+
 Now that SLATE is ready to be used, you can start installing apps. 
 We will use Squid as an example. The following link shows how to install SQUID:
 
@@ -107,6 +113,7 @@ Please, store this yaml even after deployment. You will need it in order to re-d
 
 Verifying your installation
 ===========================
+
 First, you need to see if your new installed application appears in the list of apps
 
 .. code-block:: bash
@@ -132,6 +139,7 @@ You can then, take a look at the SLATE logfiles for this application. You should
 
 Redeploying your appplication
 ==========================
+
 To re-deploy an application, you will need to uninstall it and re-install it again. For example:
 
 .. code-block:: bash
@@ -149,6 +157,7 @@ To re-deploy an application, you will need to uninstall it and re-install it aga
 
 Entering the app container for debugging
 ========================================
+
 You can also enter the kubernetes container image in order to look at the Squid logs themselves. We will use the kubernetes client for this:
 
 First, we find the kubernetes ID:
@@ -186,14 +195,17 @@ Curated applications
 
 Frontier Squid
 --------------
+
 Please, refer to :ref:`InstallingApps` for installing squid via SLATE.
 
 Installing a Hosted CE
 ----------------------
+
 A Hosted CE is a especial configuration of the HTCondor-CE that can operate from a pod outside the desired local submission node. When using HTCondor-CE, this service needs to live in the same machine that controls your local batch system. A Hosted CE instead connects remotely to this submit node via SSH and submits the jobs.
 
 Creating SSH key pairs
 ^^^^^^^^^^^^^^^^^^^^^^
+
 First, we need to create an ssh-key pair for the Hosted CE to connect to the submit node and store this key into the SLATE cluster.
 
 .. code-block:: bash
@@ -205,6 +217,7 @@ Please, change <groupname> and <clustername> values properly.
 
 Storing IGTF certificates for your CE
 ^^^^^^^^^^^^^^^^^^^^^^
+
 Next, we need to request IGTF certificates for this host. Please, refer to the link below for more information:
 
 https://opensciencegrid.org/docs/security/host-certs/#host-certificates
@@ -215,6 +228,7 @@ https://opensciencegrid.org/docs/security/host-certs/#host-certificates
 
 Configuring the service
 ^^^^^^^^^^^^^^^^^^^^^^
+
 Now, you get the app configuration and modify properly:
 
 .. code-block:: bash
@@ -254,6 +268,7 @@ Installing the service
 
 Checking your service
 ^^^^^^^^^^^^^^^^^^^^^^
+
 To check your service, get the slate instance name and look at the logs.
 
 .. code-block:: bash
