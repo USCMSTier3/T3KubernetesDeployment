@@ -67,6 +67,7 @@ Please, refer to the link below in order to perform these steps:
 
 https://slateci.io/docs/tools/
 
+.. _InstallingApps:
 Installing applications:
 ========================
 Now that SLATE is ready to be used, you can start installing apps. 
@@ -184,7 +185,7 @@ Curated applications
 
 Frontier Squid
 --------------
-Please, refer to :ref:`Installing applications` for installing squid via SLATE.
+Please, refer to :ref:`InstallingApps` for installing squid via SLATE.
 
 Installing a Hosted CE
 ----------------------
