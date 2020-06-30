@@ -178,3 +178,95 @@ After that, you are inside the container and you can check the logfiles. E.g.:
   TCP_MISS:HIER_DIRECT 115 "- -" "-" "cvmfs libcvmfs 2.4.4 parrot-7-0-15"
 
 After you are done with the container, type "exit" to exit the container.
+
+Curated applications
+====================
+
+Frontier Squid
+--------------
+Please, refer to :ref:`Installing applications` for installing squid via SLATE.
+
+Installing a Hosted CE
+----------------------
+A Hosted CE is a especial configuration of the HTCondor-CE that can operate from a pod outside the desired local submission node. When using HTCondor-CE, this service needs to live in the same machine that controls your local batch system. A Hosted CE instead connects remotely to this submit node via SSH and submits the jobs.
+
+Creating SSH key pairs
+^^^^^^^^^^^^^^^^^^^^^^
+First, we need to create an ssh-key pair for the Hosted CE to connect to the submit node and store this key into the SLATE cluster.
+
+.. code-block:: bash
+  $ ssh-keygen -f osg-keypair
+  $ slate secret create my-hostedce-privkey --from-file=bosco.key=osg-keypair --group <groupname> --cluster <clustername>
+
+Please, change <groupname> and <clustername> values properly.
+
+Storing IGTF certificates for your CE
+^^^^^^^^^^^^^^^^^^^^^^
+Next, we need to request IGTF certificates for this host. Please, refer to the link below for more information:
+
+https://opensciencegrid.org/docs/security/host-certs/#host-certificates
+
+.. code-block:: bash
+  $ slate secret create my-hostedce-secret --cluster <clustername> --group <groupname> --from-file hostcert.pem --from-file hostkey.pem
+
+Configuring the service
+^^^^^^^^^^^^^^^^^^^^^^
+Now, you get the app configuration and modify properly:
+
+.. code-block:: bash
+  $ slate app get-conf osg-hosted-ce -o osg-hosted-ce.yaml
+
+The configuration will look like this:
+
+.. code-block:: bash
+  Site:
+    Resource: <resourcename>
+  Cluster:
+    RemoteHost: <submitnode.edu>
+    RemoteBatch: htcondor
+    PrivateKeySecret: my-hostedce-privkey # maps to SLATE secret
+    Memory: 190000
+    CoresPerNode: 24
+    MaxWallTime: 1440
+    AllowedVOs: osg
+  VomsmapOverride: |
+    "/osg/Role=NULL/Capability=NULL" osg01
+  Networking:
+    ServiceType: "HostNetwork"
+    Hostname: "<k8sworker.edu>
+
+You can find a full example configuration and description of each line in the link below:
+
+https://portal.slateci.io/applications/osg-hosted-ce
+
+Installing the service
+^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: bash
+  $ slate app install osg-hosted-ce --conf osg-hosted-ce.yaml --cluster <clustername> --group <groupname>
+
+Checking your service
+^^^^^^^^^^^^^^^^^^^^^^
+To check your service, get the slate instance name and look at the logs.
+
+.. code-block:: bash
+  $ slate instance list --group ndcms | grep hosted-ce
+  osg-hosted-ce-caml-cluster notredame instance_WLB6k24202Q
+  
+  $ slate instance logs instance_WLB6k24202Q --max-lines=0
+  Pod: osg-hosted-ce-caml-cluster-f5df7cfc8-sgrpp Container: osg-hosted-ce
+  2020-03-17 09:49:53,805 INFO success: htcondor-ce entered RUNNING state, process has stayed up for > than 20 seconds (startsecs)
+
+Then, you can use `condor_ce_trace` to test the service: 
+
+.. code-block:: bash
+  $ condor_ce_trace k8sworker03.crc.nd.edu
+  Testing HTCondor-CE authorization...
+  Verified READ access for collector daemon at 
+  Verified WRITE access for scheduler daemon at Submitting job to schedd - Successful submission; cluster ID 1
+  Spooling cluster 1 files to schedd - Successful spooling
+  Job status: Held
+  Job transitioned from Held to Idle
+  Job transitioned from Idle to Completed
+  - Job was successful
+
